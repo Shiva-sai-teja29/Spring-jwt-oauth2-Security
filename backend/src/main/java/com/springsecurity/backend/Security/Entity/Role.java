@@ -1,0 +1,35 @@
+package com.springsecurity.backend.Security.Entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import lombok.*;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.List;
+
+@Entity
+@Table(name = "roles")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Role extends BaseEntity implements GrantedAuthority{
+
+    @Column(nullable = false, unique = true, length = 50)
+    private String name;
+
+    @Column(length = 200)
+    private String description;
+
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
+
+    @Override
+    public @Nullable String getAuthority() {
+        return name;
+    }
+}
